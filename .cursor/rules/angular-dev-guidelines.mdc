@@ -1,0 +1,25 @@
+---
+description: Core Angular practices for TypeScript files
+globs: **/*.ts
+alwaysApply: false
+---
+
+# Angular Development Guidelines
+
+- Use standalone components by default; avoid NgModules unless legacy integration requires otherwise.
+- Keep components single-purpose: UI rendering + lightweight orchestration only.
+- Prefer signals for local state and derived data with `computed()`; avoid imperative mutable shared state.
+- Use `ChangeDetectionStrategy.OnPush` on every component.
+- Prefer `inject()` in services and `input()` / `output()` for inputs and outputs.
+- Use route-based lazy loading for feature modules.
+- Keep templates declarative with Angular control flow (`@if`, `@for`, `@switch`).
+- For template conditionals, keep expressions simple and move logic to component computed values.
+
+```ts
+// ❌ Avoid
+let data = signal<any>([]);
+
+// ✅ Prefer
+const items = signal<readonly Item[]>([]);
+const filteredItems = computed(() => items().filter((item) => item.active));
+```
