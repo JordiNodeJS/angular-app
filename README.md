@@ -1,6 +1,21 @@
-# AngularApp
+# Angular App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.1.
+Proyecto de aprendizaje en Angular.  
+Estoy apuntando aquí los hitos a medida que avanzo.
+
+## Hitos
+
+- 2026-03-11: Inicio del proyecto.
+- 2026-03-11: Migración del workspace a `scss` por defecto.
+- 2026-03-11: Movidos los estilos de `app.html` a `src/app/app.scss`.
+- 2026-03-11: Repositorio publicado en GitHub con descripción `aprendizaje`.
+
+## Estado actual
+
+- Estoy empezando.
+
+
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.2.
 
 ## Development server
 
