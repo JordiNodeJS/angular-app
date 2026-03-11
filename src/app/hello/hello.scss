@@ -1,0 +1,126 @@
+.hello-card {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(149, 188, 255, 0.35);
+  background: linear-gradient(
+    180deg,
+    rgba(16, 33, 72, 0.75),
+    rgba(13, 27, 58, 0.9)
+  );
+}
+
+.hello-card h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.2rem;
+}
+
+.hello-card p {
+  margin: 0;
+  color: rgba(209, 219, 255, 0.85);
+}
+
+.hello-card__button {
+  justify-self: start;
+  border: 0;
+  padding: 0.58rem 0.95rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+  color: #070c1f;
+  background: linear-gradient(130deg, #7dc2ff, #98b6ff);
+}
+
+.hello-card__button:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+
+.hello-card__button:disabled {
+  filter: grayscale(0.35);
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.hello-card__button--toggle {
+  transition: transform 140ms ease;
+}
+
+.hello-card__button--toggle:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.hello-card__counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.hello-card__counter-button {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.55rem;
+  border: 1px solid rgba(149, 188, 255, 0.45);
+  background: rgba(255, 255, 255, 0.06);
+  color: #ecf0ff;
+  cursor: pointer;
+}
+
+.hello-card__counter-button:hover:not(:disabled) {
+  background: rgba(125, 194, 255, 0.22);
+}
+
+.hello-card__counter-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.hello-card__value {
+  min-width: 2.2rem;
+  text-align: center;
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.hello-card__reset-button {
+  margin-left: 0.35rem;
+  border: 1px solid rgba(149, 188, 255, 0.42);
+  background: linear-gradient(145deg, rgba(125, 194, 255, 0.2), rgba(143, 109, 255, 0.2));
+  color: #ebefff;
+  border-radius: 0.6rem;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  transition: transform 140ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.hello-card__reset-button:hover {
+  background: linear-gradient(145deg, rgba(125, 194, 255, 0.35), rgba(143, 109, 255, 0.35));
+  box-shadow: 0 0 0 2px rgba(125, 194, 255, 0.14);
+}
+
+.hello-card__reset-button:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.hello-card__reset-button:focus-visible {
+  outline: 2px solid #59d0ff;
+  outline-offset: 2px;
+}
+
+.hello-card__reset-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.hello-card__feedback {
+  margin: 0;
+  color: rgba(197, 223, 255, 0.95);
+  font-size: 0.84rem;
+  min-height: 1rem;
+  letter-spacing: 0.01em;
+}

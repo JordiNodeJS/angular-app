@@ -1,0 +1,23 @@
+<section class="hello-card" aria-label="Sección interactiva">
+  <h2>{{ title }}</h2>
+  <p>Estado actual: <strong>{{ statusLabel() }}</strong></p>
+
+  <button class="hello-card__button hello-card__button--toggle" [disabled]="isDisabled()" (click)="onClick()">
+    {{ isDisabled() ? 'Reactivar botón' : 'Desactivar botón' }}
+  </button>
+
+  <div class="hello-card__counter" role="group" aria-label="Contador">
+    <button class="hello-card__counter-button" (click)="decreaseCounter()" [disabled]="count() === 0" aria-label="Disminuir contador">
+      -
+    </button>
+    <span class="hello-card__value" aria-live="polite">{{ count() }}</span>
+    <button class="hello-card__counter-button" (click)="increaseCounter()" aria-label="Aumentar contador">+</button>
+    <button class="hello-card__reset-button" (click)="resetCounter()">Reset</button>
+  </div>
+
+  @if (counterFeedback()) {
+    <p class="hello-card__feedback" aria-live="polite">{{ counterFeedback() }}</p>
+  }
+
+  <div>Double count: {{ doubleCount() }}</div>
+</section>
