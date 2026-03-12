@@ -1,27 +1,20 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { startWith } from 'rxjs';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { Country } from '../models/country';
+import { CountryCard } from './country-card';
+import { CountrySearch } from './country-search';
 import { CountryService } from './country.service';
 
 @Component({
   selector: 'app-countries',
   imports: [
     DecimalPipe,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    CountryCard,
+    CountrySearch,
   ],
   templateUrl: './countries.html',
   styleUrl: './countries.scss',
@@ -37,11 +30,7 @@ export class Countries {
       : '',
   );
 
-  protected readonly searchControl = new FormControl('', { nonNullable: true });
-  protected readonly searchTerm = toSignal(
-    this.searchControl.valueChanges.pipe(startWith('')),
-    { initialValue: '' },
-  );
+  protected readonly searchTerm = signal('');
 
   private readonly countries = computed(() =>
     [...(this.countryService.resource.value() ?? [])].sort((a, b) =>
@@ -64,15 +53,4 @@ export class Countries {
   protected readonly totalPopulation = computed(() =>
     this.filteredCountries().reduce((sum, c) => sum + c.population, 0),
   );
-
-  protected clearSearch(): void {
-    this.searchControl.setValue('');
-  }
-
-  protected onFlagError(event: Event, country: Country): void {
-    const img = event.target as HTMLImageElement;
-    if (country.flags.svg && img.src !== country.flags.svg) {
-      img.src = country.flags.svg;
-    }
-  }
 }

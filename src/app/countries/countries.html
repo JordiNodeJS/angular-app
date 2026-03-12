@@ -11,21 +11,10 @@
     </div>
 
     <div class="countries__toolbar">
-      <mat-form-field class="countries__search" appearance="outline" subscriptSizing="dynamic">
-        <mat-label>Buscar país o capital</mat-label>
-        <mat-icon matPrefix>search</mat-icon>
-        <input
-          matInput
-          type="search"
-          [formControl]="searchControl"
-          aria-label="Buscar país o capital"
-        />
-        @if (searchTerm()) {
-          <button matSuffix mat-icon-button (click)="clearSearch()" aria-label="Limpiar búsqueda">
-            <mat-icon>close</mat-icon>
-          </button>
-        }
-      </mat-form-field>
+      <app-country-search
+        class="countries__search"
+        (searchChange)="searchTerm.set($event)"
+      />
 
       <div class="countries__stats" aria-live="polite">
         <span class="countries__stat">
@@ -54,36 +43,8 @@
   } @else {
     <ul class="countries__grid" role="list">
       @for (country of filteredCountries(); track country.name.common) {
-        <li class="country-card" role="listitem">
-          <img
-            class="country-card__flag"
-            [src]="country.flags.png"
-            [alt]="country.flags.alt || 'Bandera de ' + country.name.common"
-            width="96"
-            height="64"
-            loading="lazy"
-            (error)="onFlagError($event, country)"
-          />
-          <div class="country-card__body">
-            <h3 class="country-card__name">{{ country.name.common }}</h3>
-            <p class="country-card__official">{{ country.name.official }}</p>
-            <dl class="country-card__details">
-              <div class="country-card__detail">
-                <dt>
-                  <mat-icon class="country-card__detail-icon" aria-hidden="true" fontIcon="location_city" />
-                  Capital
-                </dt>
-                <dd>{{ country.capital.length ? country.capital.join(', ') : 'N/A' }}</dd>
-              </div>
-              <div class="country-card__detail">
-                <dt>
-                  <mat-icon class="country-card__detail-icon" aria-hidden="true" fontIcon="people" />
-                  Población
-                </dt>
-                <dd>{{ country.population | number }}</dd>
-              </div>
-            </dl>
-          </div>
+        <li role="listitem">
+          <app-country-card [country]="country" />
         </li>
       } @empty {
         <li class="countries__empty" role="listitem">
