@@ -1,0 +1,9 @@
+{
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "prettier.printWidth": 80,
+  "prettier.tabWidth": 2,
+  "prettier.trailingComma": "es5"
+}
