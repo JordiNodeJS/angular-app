@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { startWith } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -14,7 +16,7 @@ import { CountryService } from './country.service';
   selector: 'app-countries',
   imports: [
     DecimalPipe,
-    FormsModule,
+    ReactiveFormsModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
@@ -25,13 +27,27 @@ import { CountryService } from './country.service';
   styleUrl: './countries.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Countries implements OnInit {
+export class Countries {
   private readonly countryService = inject(CountryService);
 
-  protected readonly countries = signal<Country[]>([]);
-  protected readonly loading = signal(true);
-  protected readonly error = signal('');
-  protected readonly searchTerm = signal('');
+  protected readonly loading = this.countryService.resource.isLoading;
+  protected readonly errorMessage = computed(() =>
+    this.countryService.resource.error()
+      ? 'No se pudieron cargar los países. Inténtalo de nuevo más tarde.'
+      : '',
+  );
+
+  protected readonly searchControl = new FormControl('', { nonNullable: true });
+  protected readonly searchTerm = toSignal(
+    this.searchControl.valueChanges.pipe(startWith('')),
+    { initialValue: '' },
+  );
+
+  private readonly countries = computed(() =>
+    [...(this.countryService.resource.value() ?? [])].sort((a, b) =>
+      a.name.common.localeCompare(b.name.common),
+    ),
+  );
 
   protected readonly filteredCountries = computed(() => {
     const term = this.searchTerm().toLowerCase().trim();
@@ -49,21 +65,8 @@ export class Countries implements OnInit {
     this.filteredCountries().reduce((sum, c) => sum + c.population, 0),
   );
 
-  ngOnInit(): void {
-    this.countryService.getAll().subscribe({
-      next: (data) => {
-        this.countries.set(data.sort((a, b) => a.name.common.localeCompare(b.name.common)));
-        this.loading.set(false);
-      },
-      error: () => {
-        this.error.set('No se pudieron cargar los países. Inténtalo de nuevo más tarde.');
-        this.loading.set(false);
-      },
-    });
-  }
-
-  protected onSearch(value: string): void {
-    this.searchTerm.set(value);
+  protected clearSearch(): void {
+    this.searchControl.setValue('');
   }
 
   protected onFlagError(event: Event, country: Country): void {

@@ -17,12 +17,11 @@
         <input
           matInput
           type="search"
-          [ngModel]="searchTerm()"
-          (ngModelChange)="onSearch($event)"
+          [formControl]="searchControl"
           aria-label="Buscar país o capital"
         />
         @if (searchTerm()) {
-          <button matSuffix mat-icon-button (click)="onSearch('')" aria-label="Limpiar búsqueda">
+          <button matSuffix mat-icon-button (click)="clearSearch()" aria-label="Limpiar búsqueda">
             <mat-icon>close</mat-icon>
           </button>
         }
@@ -47,10 +46,10 @@
       <mat-spinner diameter="48" />
       <p class="countries__loading-text">Cargando países…</p>
     </div>
-  } @else if (error()) {
+  } @else if (errorMessage()) {
     <div class="countries__error" role="alert">
       <mat-icon class="countries__error-icon">error_outline</mat-icon>
-      <p>{{ error() }}</p>
+      <p>{{ errorMessage() }}</p>
     </div>
   } @else {
     <ul class="countries__grid" role="list">
